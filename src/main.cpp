@@ -11,14 +11,12 @@ int main() {
     std::cout << "3D Graphics Engine with SIMD Operations" << std::endl;
     std::cout << "========================================" << std::endl;
     
-    // Initialize renderer
     Renderer renderer;
     if (!renderer.initialize(1280, 720, "3D Engine - SIMD Demo")) {
         std::cerr << "Failed to initialize renderer!" << std::endl;
         return -1;
     }
     
-    // Create camera (position will be updated in the loop)
     Camera camera;
     camera.set_perspective(60.0f * M_PI / 180.0f, 1280.0f / 720.0f, 1.0f, 100.0f);
     
@@ -35,7 +33,6 @@ int main() {
     const float camera_height = 3.0f;    // Height above the cube
     Vector3 look_target;         // Always look at cube center
     
-    // Main render loop
     auto start_time = std::chrono::high_resolution_clock::now();
     float total_time = 0.0f;
     int frame_count = 0;
@@ -53,7 +50,7 @@ int main() {
         renderer.begin_frame();
         renderer.clear(Vector3(0.1f, 0.2f, 0.3f));
 
-        float camera_rotation = total_time * 45.0f;  // 45 degrees per second (half of cube's 90)
+        float camera_rotation = total_time * 45.0f;  // 45 degrees per second
         float camera_rad = camera_rotation * M_PI / 180.0f;
         
         // Orbit on an angled circle (30 degrees tilt)
@@ -69,7 +66,6 @@ int main() {
         camera.look_at(look_target);
         renderer.set_camera(camera);
 
-        // Draw rotating cube (original speed)
         float cube_rotation = total_time * 90.0f;
         Matrix4 cube_transform = Matrix4::rotation_y(cube_rotation * M_PI / 180.0f);
         renderer.draw_mesh(cube, cube_transform);
